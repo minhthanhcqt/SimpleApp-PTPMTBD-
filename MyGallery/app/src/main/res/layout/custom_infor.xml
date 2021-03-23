@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_margin="10dp"
+    >
+
+
+    <TextView
+        android:id="@+id/txt_Image_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ImageName"
+        android:gravity="center"
+        android:textSize="20sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/txt_Image_name">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_close"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#000"
+                android:text="Close"
+                android:textColor="#fff" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/datetaken"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date Taken: " />
+
+        <TextView
+            android:id="@+id/img_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Size: " />
+
+        <TextView
+            android:id="@+id/img_face"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Face: " />
+
+    </LinearLayout>
+
+</RelativeLayout>

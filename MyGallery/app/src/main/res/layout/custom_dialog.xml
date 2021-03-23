@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_margin="10dp"
+    >
+
+
+    <TextView
+        android:id="@+id/txt_Image_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ImageName"
+        android:gravity="center"
+        android:textSize="20sp"/>
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_Image_name"
+        android:scaleType="centerCrop"
+        app:srcCompat="@mipmap/ic_launcher_round"
+        tools:ignore="NotSibling" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/txt_Image_name">
+
+        <Button
+            android:id="@+id/btn_full"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="Full View"
+            android:textColor="#fff"
+            android:background="#3D7B66"/>
+
+        <Button
+            android:id="@+id/btn_infor"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="Details"
+            android:textColor="#fff"
+            android:background="#3D7B66"/>
+
+        <Button
+            android:id="@+id/btn_close"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Close"
+            android:textColor="#fff"
+            android:background="#000"/>
+    </LinearLayout>
+
+</RelativeLayout>

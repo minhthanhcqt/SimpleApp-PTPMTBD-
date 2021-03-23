@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+    <item android:id="@+id/image" android:title="@string/image" android:icon="@drawable/iconimage" app:showAsAction="always"  />
+    <item android:id="@+id/album" android:title="@string/album" android:icon="@drawable/iconalbum" app:showAsAction="always" />
+    <item android:id="@+id/story" android:icon="@drawable/iconstory" android:title="@string/story" app:showAsAction="ifRoom" />
+    <item android:id="@+id/face" android:title="@string/face" android:icon="@drawable/iconface"  app:showAsAction="ifRoom"/>
+    </group>
+</menu>

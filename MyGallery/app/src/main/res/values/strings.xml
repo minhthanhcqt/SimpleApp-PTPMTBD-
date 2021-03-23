@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MyGallery</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="album">Album</string>
+    <string name="story">Story</string>
+    <string name="face">Face</string>
+    <string name="image">Image</string>
+</resources>
