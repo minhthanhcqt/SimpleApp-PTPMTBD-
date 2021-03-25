@@ -22,7 +22,7 @@ public class DateAdapter extends BaseAdapter {
     }
     private  class ViewHolder
     {
-        ImageAdapter imageAdapter;
+        GridAdapter imageAdapter;
         TextView textView;
     }
     public View getView(int position , View convertView,ViewGroup parent)
@@ -41,12 +41,12 @@ public class DateAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return 0;
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return list.get(position);
     }
 
     @Override

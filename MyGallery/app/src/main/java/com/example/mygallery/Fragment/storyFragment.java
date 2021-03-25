@@ -21,6 +21,7 @@ import com.example.mygallery.ItemImage;
 import com.example.mygallery.R;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,11 +70,10 @@ public class storyFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    /*
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Integer[]images=new Integer[]{R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4, R.drawable.img5,R.drawable.img6};
+        Integer[]images=new Integer[]{R.drawable.iconface, R.drawable.iconface, R.drawable.iconface, R.drawable.iconface, R.drawable.iconface,R.drawable.iconface};
         String[]titles=new String[]{ "Screen", "Story", "My Life", "Sad Story", "Happy", "SonTung"};
 
         ArrayList<ItemImage> itemImages = new ArrayList<>();
@@ -82,7 +82,8 @@ public class storyFragment extends Fragment {
             itemImages.add(itemImage);
         }
         GridAdapter gridadapter = new GridAdapter( getContext(),itemImages);
-        GridView gridView = getView().findViewById(R.id.dategrid);
+        View view2=LayoutInflater.from(getContext()).inflate(R.layout.rowliststory, null);
+        GridView gridView = view2.findViewById(R.id.dategrid);
         gridView.setAdapter(gridadapter);
 
         ArrayList<ItemDate> itemDates = new ArrayList<>();
@@ -96,11 +97,10 @@ public class storyFragment extends Fragment {
 
     }
 
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_story2, container, false);
+        return inflater.inflate(R.layout.fragment_story, container, false);
     }
 }
