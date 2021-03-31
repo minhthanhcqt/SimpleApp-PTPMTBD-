@@ -42,4 +42,10 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     // For control over item selection of both touch and mouse driven selection
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+
+    //photoeditor
+    implementation 'com.github.iamutkarshtiwari:Ananas:1.2.4'
+    implementation 'com.wajahatkarim3.LongImageCamera:LongImageCamera:1.0.2'
+    implementation 'com.github.ihimanshurawat:ImageWorker:1.0'
+    implementation 'com.github.myinnos:ImageSaveandShare:1.0.3'
 }
