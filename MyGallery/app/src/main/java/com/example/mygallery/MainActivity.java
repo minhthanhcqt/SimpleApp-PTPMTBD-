@@ -21,6 +21,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.wajahatkarim3.longimagecamera.LongImageCameraActivity;
 
+import java.io.File;
+
+import iamutkarshtiwari.github.io.ananas.editimage.EditImageActivity;
+import iamutkarshtiwari.github.io.ananas.editimage.ImageEditorIntentBuilder;
+
 public class MainActivity  extends AppCompatActivity {
     ImageButton btnGallery;
     ImageButton btnEdit;
@@ -93,11 +98,40 @@ public class MainActivity  extends AppCompatActivity {
             editImage(imagePath);
 
         }
+        //edited images
+        if (requestCode == PHOTO_EDITOR_REQUEST_CODE) {
+            String newFilePath = data.getStringExtra(ImageEditorIntentBuilder.OUTPUT_PATH);
+            boolean isImageEdit = data.getBooleanExtra(EditImageActivity.IS_IMAGE_EDITED, false);
+            if (isImageEdit){
+
+            }else {
+                newFilePath = data.getStringExtra(ImageEditorIntentBuilder.SOURCE_PATH);
+            }
+            startActivity(new Intent(getApplicationContext(), OutputImageActivity.class).putExtra("imagePath", newFilePath));
+        }
+
     }
 
     private void editImage(String imagePath) {
 
         try {
+            File outputFile = FileUtils.genEditFile();
+
+            Intent intent = new ImageEditorIntentBuilder(MainActivity.this, imagePath, outputFile.getAbsolutePath())
+                    .withAddText()
+                    .withBeautyFeature()
+                    .withBrightnessFeature()
+                    .withCropFeature()
+                    .withFilterFeature()
+                    .withPaintFeature()
+                    .withRotateFeature()
+                    .withStickerFeature()
+                    .withSaturationFeature()
+                    .forcePortrait(true)
+                    .setSupportActionBarVisibility(false)
+                    .build();
+
+            EditImageActivity.start(MainActivity.this,intent, PHOTO_EDITOR_REQUEST_CODE);
 
         } catch (Exception e){
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
