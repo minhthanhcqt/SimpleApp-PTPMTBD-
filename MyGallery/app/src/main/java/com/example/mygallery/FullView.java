@@ -1,20 +1,55 @@
 package com.example.mygallery;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
+
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FullView extends AppCompatActivity {
 
+    private MyFragmentAdapter  myFragmentAdapter;
+    private ViewPager viewPager;
+    private ArrayList<Fragment> fragments;
+    private List<String> path;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_full_view);
+        setContentView(R.layout.activity_main);
+        ImageGallery imageGallery=new ImageGallery();
+        path=imageGallery.listImage(getBaseContext());
+        fragments=new ArrayList<>();
+        viewPager = findViewById(R.id.all);
+        for (int i = 0; i < path.size(); i++) {
+            if(!isImage(path.get(i))){
+                videoFragment videoFragment = new videoFragment(path.get(i));
+                fragments.add(videoFragment);
 
-        ImageView imageView = findViewById(R.id.img_full);
-        int img_id = getIntent().getExtras().getInt("img_id");
+            }else {
+                ImagesFragment imageFragment = new ImagesFragment(path.get(i));
+                fragments.add(imageFragment);
+            }
+        }
+        Intent intent = getIntent();
+        String position=  intent.getStringExtra("position");
+       myFragmentAdapter= new MyFragmentAdapter(getSupportFragmentManager(), fragments);
+        viewPager.setAdapter(myFragmentAdapter);
+        viewPager.setCurrentItem(Integer.parseInt(position), true);
 
-        imageView.setImageResource(img_id);
+
     }
+    boolean isImage(String path)
+    {
+        String mimeType= URLConnection.guessContentTypeFromName(path);
+        return mimeType!=null &&mimeType.startsWith("image");
+    }
+
 }
