@@ -1,4 +1,4 @@
-package com.example.mygallery;
+/*package com.example.mygallery;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -56,3 +56,6 @@ public class DateAdapter extends BaseAdapter {
 
 
 }
+
+
+ */

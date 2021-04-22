@@ -1,26 +1,39 @@
 package com.example.mygallery.Fragment;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.example.mygallery.DateAdapter;
+import com.example.mygallery.Date_Adapter;
 import com.example.mygallery.FaceAdapter;
-import com.example.mygallery.GridAdapter;
+import com.example.mygallery.FullView;
+import com.example.mygallery.GalleryAdapter;
+import com.example.mygallery.ImageGallery;
 import com.example.mygallery.ItemDate;
 import com.example.mygallery.ItemFace;
 import com.example.mygallery.ItemImage;
 import com.example.mygallery.R;
 
+import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.Inflater;
 
 /**
@@ -29,6 +42,11 @@ import java.util.zip.Inflater;
  * create an instance of this fragment.
  */
 public class storyFragment extends Fragment {
+    private static final int  MY_READ_PERMISSION_CODE =101;
+    RecyclerView recyclerView;
+    GalleryAdapter galleryAdapter;
+
+    List<ItemImage>images;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -73,6 +91,21 @@ public class storyFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        recyclerView=view.findViewById(R.id.listDate);
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_READ_PERMISSION_CODE);
+        }
+        else {
+
+            loadimage();
+        }
+
+        /*
         Integer[]images=new Integer[]{R.drawable.iconface, R.drawable.iconface, R.drawable.iconface, R.drawable.iconface, R.drawable.iconface,R.drawable.iconface};
         String[]titles=new String[]{ "Screen", "Story", "My Life", "Sad Story", "Happy", "SonTung"};
 
@@ -94,6 +127,109 @@ public class storyFragment extends Fragment {
         DateAdapter dateAdapter = new DateAdapter( getContext(),itemDates);
         ListView l = getView().findViewById(R.id.listdate);
         l.setAdapter(dateAdapter);
+
+         */
+
+
+    }
+
+    void loadimage()
+    {
+        ImageGallery imageGallery=new ImageGallery();
+        images=imageGallery.listImage(getContext());
+        ArrayList<String> date=new ArrayList<>();
+        for( int i=0; i<images.size(); i++)
+        {
+            if(! date.contains(images.get(i).getDate()))
+            {
+                date.add(images.get(i).getDate());
+            }
+        }
+        ArrayList<ItemDate> itemDates=new ArrayList<>();
+        int Flagg=0;
+        for( int i=0; i< date.size(); i++)
+        {
+            ArrayList<ItemImage>  itemImages=new ArrayList<>();
+            for( int j=Flagg; j< images.size(); j++)
+            {
+                if( images.get(j).getDate().equals(date.get(i)))
+                {
+                    itemImages.add(images.get(j));
+                }
+                else
+                {
+                    Flagg=j;
+                    break;
+                }
+            }
+        galleryAdapter= new GalleryAdapter(getContext(), itemImages, new GalleryAdapter.PhotoListener() {
+
+            @Override
+            public void onPhotoClick(ItemImage itemImage) {
+                int position=images.indexOf(itemImage);
+                Intent intent = new Intent(getContext(), FullView.class);
+                intent.putExtra("position",String.valueOf( position));
+                startActivity(intent);
+
+            }
+        });
+
+
+            ItemDate itemDate = new ItemDate(galleryAdapter, date.get(i));
+            itemDates.add(itemDate);
+        }
+
+        Date_Adapter date_adapter=new Date_Adapter(getContext(), itemDates);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        recyclerView.setAdapter(date_adapter);
+
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        switch (requestCode) {
+            case MY_READ_PERMISSION_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getContext(),"Read External Stroge Permission Granted", Toast.LENGTH_SHORT).show();
+                    loadimage();
+                } else {
+                    Toast.makeText(getContext(),"Read External Stroge Permission Granted", Toast.LENGTH_SHORT).show();
+
+                }
+                return;
+            }
+        }
+    }
+
+    public void setGridViewHeightBasedOnChildren(GridView gridView, int columns) {
+        ListAdapter listAdapter = gridView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        int items = listAdapter.getCount();
+        int rows = 0;
+
+        View listItem = listAdapter.getView(0, null, gridView);
+        listItem.measure(0, 0);
+        totalHeight = 305;//listItem.getMeasuredHeight();
+
+        float x = 1;
+        if( items > columns ){
+            x = items/columns;
+            rows = (int) (x + 1);
+            totalHeight *= rows;
+        }
+
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = totalHeight;
+        gridView.setLayoutParams(params);
 
     }
 

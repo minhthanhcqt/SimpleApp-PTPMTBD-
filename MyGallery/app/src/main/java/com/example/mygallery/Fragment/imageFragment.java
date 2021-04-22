@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.example.mygallery.FullView;
 import com.example.mygallery.GalleryAdapter;
 import com.example.mygallery.ImageGallery;
+import com.example.mygallery.ItemImage;
 import com.example.mygallery.R;
 
 import java.net.URLConnection;
@@ -42,7 +43,7 @@ public class imageFragment extends Fragment {
     RecyclerView recyclerView;
     GalleryAdapter galleryAdapter;
     ViewPager viewPager;
-    List<String> images;
+    List<ItemImage> images;
     TextView gallery_number;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -85,7 +86,7 @@ public class imageFragment extends Fragment {
                 != PackageManager.PERMISSION_GRANTED) {
 
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    MY_READ_PERMISSION_CODE);
+                 MY_READ_PERMISSION_CODE);
         }
         else {
 
@@ -104,13 +105,13 @@ public class imageFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         ImageGallery imageGallery=new ImageGallery();
-        images=imageGallery.listImage(getContext());
+       images=imageGallery.listImage(getContext());
 
         galleryAdapter= new GalleryAdapter(getContext(), images, new GalleryAdapter.PhotoListener() {
 
             @Override
-            public void onPhotoClick(String path) {
-                int position=images.indexOf(path);
+            public void onPhotoClick(ItemImage itemImage) {
+                int position=images.indexOf(itemImage);
                 Intent intent = new Intent(getContext(), FullView.class);
                 intent.putExtra("position",String.valueOf( position));
                 startActivity(intent);

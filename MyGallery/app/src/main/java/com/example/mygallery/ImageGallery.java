@@ -8,17 +8,22 @@ import android.util.Log;
 
 import androidx.loader.content.CursorLoader;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.crypto.spec.DESKeySpec;
 
 public class ImageGallery {
-    public ArrayList<String> listImage(Context context) {
+    public ArrayList<ItemImage> listImage(Context context) {
         Uri uri;
-        int column_index_data, column_index_folder_name;
-        ArrayList<String> listOfAllImage = new ArrayList<>();
+        int column_index_data, column_index_date;
+        ArrayList<ItemImage> listOfAllImage = new ArrayList<>();
         String pathImage;
+                Long date;
        //String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
         /*
         String[]projection={
@@ -70,11 +75,17 @@ public class ImageGallery {
 
         Cursor cursor = cursorLoader.loadInBackground();
         column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+        column_index_date=cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_ADDED);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         while (cursor.moveToNext()) {
             pathImage = cursor.getString(column_index_data);
-            listOfAllImage.add(pathImage);
+            date= cursor.getLong(column_index_date)*1000L;
+            String  dateformat= sdf.format(new  Date(date));
+             ItemImage itemImage= new ItemImage(pathImage, dateformat);
+            listOfAllImage.add(itemImage);
         }
         return listOfAllImage;
     }
+
 }

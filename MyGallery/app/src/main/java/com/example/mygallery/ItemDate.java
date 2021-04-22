@@ -1,28 +1,28 @@
 package com.example.mygallery;
 
 public class ItemDate {
-    private GridAdapter imageAdapter;
+    private GalleryAdapter galleryAdapter;
     private String  textdate;
 
-    public  ItemDate( GridAdapter imageAdapter, String textdate)
+    public  ItemDate(GalleryAdapter galleryAdapter, String textdate)
     {
-        this.imageAdapter=imageAdapter;
+        this.galleryAdapter=galleryAdapter;
         this.textdate=textdate;
-    }
-
-    public GridAdapter getImageAdapter() {
-        return imageAdapter;
-    }
-
-    public void setImageAdapter(GridAdapter imageAdapter) {
-        this.imageAdapter = imageAdapter;
     }
 
     public String getTextdate() {
         return textdate;
     }
 
+    public GalleryAdapter getGalleryAdapter() {
+        return galleryAdapter;
+    }
+
     public void setTextdate(String textdate) {
         this.textdate = textdate;
+    }
+
+    public void setGalleryAdapter(GalleryAdapter galleryAdapter) {
+        this.galleryAdapter = galleryAdapter;
     }
 }

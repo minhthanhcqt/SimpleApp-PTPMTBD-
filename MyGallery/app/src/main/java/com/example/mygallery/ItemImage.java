@@ -1,17 +1,29 @@
 package com.example.mygallery;
 
 public class ItemImage {
-        private int dateID;
-        public  ItemImage( int dateID)
+     private String Path;
+     private  String Date;
+
+
+        public  ItemImage( String path, String Date)
         {
-            this.dateID=dateID;
-        }
-        public int getImageID() {
-            return this.dateID;
+            this.Path=path;
+            this.Date=Date;
         }
 
-        public void setFaceID(int faceID) {
-            this.dateID = dateID;
-        }
+    public String getPath() {
+        return Path;
+    }
 
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
+
+    public void setPath(String path) {
+        Path = path;
+    }
 }

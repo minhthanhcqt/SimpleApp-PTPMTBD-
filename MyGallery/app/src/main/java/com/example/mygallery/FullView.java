@@ -19,7 +19,7 @@ public class FullView extends AppCompatActivity {
     private MyFragmentAdapter  myFragmentAdapter;
     private ViewPager viewPager;
     private ArrayList<Fragment> fragments;
-    private List<String> path;
+    private List<ItemImage> path;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +29,12 @@ public class FullView extends AppCompatActivity {
         fragments=new ArrayList<>();
         viewPager = findViewById(R.id.all);
         for (int i = 0; i < path.size(); i++) {
-            if(!isImage(path.get(i))){
-                videoFragment videoFragment = new videoFragment(path.get(i));
+            if(!isImage(path.get(i).getPath())){
+                videoFragment videoFragment = new videoFragment(path.get(i).getPath());
                 fragments.add(videoFragment);
 
             }else {
-                ImagesFragment imageFragment = new ImagesFragment(path.get(i));
+                ImagesFragment imageFragment = new ImagesFragment(path.get(i).getPath());
                 fragments.add(imageFragment);
             }
         }

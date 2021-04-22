@@ -1,4 +1,4 @@
-package com.example.mygallery;
+/*package com.example.mygallery;
 
 
 import android.content.Context;
@@ -56,3 +56,5 @@ public class GridAdapter extends BaseAdapter {
 
 }
 
+
+ */

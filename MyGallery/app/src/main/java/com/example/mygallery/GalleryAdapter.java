@@ -1,4 +1,5 @@
 package com.example.mygallery;
+import android.content.ClipData;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -18,10 +19,10 @@ import java.net.URLConnection;
 import java.util.List;
 public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<String> images;
+    private List<ItemImage> images;
     protected  PhotoListener photoListener;
 
-    public GalleryAdapter( Context context, List<String> images, PhotoListener  photoListener)
+    public GalleryAdapter( Context context, List<ItemImage> images, PhotoListener  photoListener)
     {
         this.context=context;
         this.images=images;
@@ -43,7 +44,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
     @Override
     public int getItemViewType(int position) {
-        if(isImage(images.get(position)))
+        if(isImage(images.get(position).getPath()))
         {
             return 0;
         }
@@ -57,24 +58,24 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (holder.getItemViewType()) {
             case 0:
                 ViewHolder_images viewHolder_images = (ViewHolder_images) holder;
-                String image=images.get(position);
+                String image=images.get(position).getPath();
                 Glide.with(context).load(image).into(viewHolder_images.imageView);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        photoListener.onPhotoClick(image);
+                        photoListener.onPhotoClick(images.get(position));
                     }
                 });
                 break;
 
             case 1:
                 ViewHolder_video viewHolder_video = (ViewHolder_video) holder;
-                String video=images.get(position);
+                String video=images.get(position).getPath();
                 Glide.with(context).load(video).into(viewHolder_video.videoView);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        photoListener.onPhotoClick(video);
+                        photoListener.onPhotoClick(images.get(position));
                     }
                 });
                 break;
@@ -109,7 +110,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
    public interface  PhotoListener
    {
-       void  onPhotoClick(String path);
+       void  onPhotoClick(ItemImage itemImage);
    }
 
 }
