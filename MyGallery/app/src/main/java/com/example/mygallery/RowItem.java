@@ -1,22 +1,25 @@
 package com.example.mygallery;
 
 public class RowItem {
-        private int imageId;
+        private ItemImage imageId;
         private String title;
         private String desc;
 
-        public RowItem(int imageId, String title, String desc) {
+        public RowItem(ItemImage imageId, String title, String desc) {
             this.imageId = imageId;
             this.title = title;
             this.desc = desc;
         }
-        public int getImageId() {
-            return imageId;
-        }
-        public void setImageId(int imageId) {
-            this.imageId = imageId;
-        }
-        public String getDesc() {
+
+    public ItemImage getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(ItemImage imageId) {
+        this.imageId = imageId;
+    }
+
+    public String getDesc() {
             return desc;
         }
         public void setDesc(String desc) {

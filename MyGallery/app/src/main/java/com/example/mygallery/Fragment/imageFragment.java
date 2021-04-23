@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,6 +113,7 @@ public class imageFragment extends Fragment {
             @Override
             public void onPhotoClick(ItemImage itemImage) {
                 int position=images.indexOf(itemImage);
+                Log.e("Path " , ""+ images.get(position).getPath());
                 Intent intent = new Intent(getContext(), FullView.class);
                 intent.putExtra("position",String.valueOf( position));
                 startActivity(intent);
