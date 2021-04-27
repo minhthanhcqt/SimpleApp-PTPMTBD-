@@ -1,6 +1,7 @@
 package com.example.mygallery;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 
 import java.io.File;
 
 public class ImagesFragment extends Fragment {
-    private ImageView imageView;
+    private PhotoView imageView;
     private String url;
     public ImagesFragment(String url )
     {

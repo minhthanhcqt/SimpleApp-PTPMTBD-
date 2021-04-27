@@ -8,13 +8,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FullView extends AppCompatActivity {
+public class FullView extends AppCompatActivity  {
 
     private MyFragmentAdapter  myFragmentAdapter;
     private ViewPager viewPager;
@@ -67,11 +69,13 @@ public class FullView extends AppCompatActivity {
         viewPager.setCurrentItem(Integer.parseInt(position), true);
 
 
+
     }
     boolean isImage(String path)
     {
         String mimeType= URLConnection.guessContentTypeFromName(path);
         return mimeType!=null &&mimeType.startsWith("image");
     }
+
 
 }
