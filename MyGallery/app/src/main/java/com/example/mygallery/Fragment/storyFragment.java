@@ -105,30 +105,6 @@ public class storyFragment extends Fragment {
             loadimage();
         }
 
-        /*
-        Integer[]images=new Integer[]{R.drawable.iconface, R.drawable.iconface, R.drawable.iconface, R.drawable.iconface, R.drawable.iconface,R.drawable.iconface};
-        String[]titles=new String[]{ "Screen", "Story", "My Life", "Sad Story", "Happy", "SonTung"};
-
-        ArrayList<ItemImage> itemImages = new ArrayList<>();
-        for (int i = 0; i < titles.length; i++) {
-            ItemImage itemImage = new ItemImage(images[i]);
-            itemImages.add(itemImage);
-        }
-        GridAdapter gridadapter = new GridAdapter( getContext(),itemImages);
-        View view2=LayoutInflater.from(getContext()).inflate(R.layout.rowliststory, null);
-        GridView gridView = view2.findViewById(R.id.dategrid);
-        gridView.setAdapter(gridadapter);
-
-        ArrayList<ItemDate> itemDates = new ArrayList<>();
-        for (int i = 0; i < titles.length; i++) {
-            ItemDate itemDate = new ItemDate(gridadapter, titles[i]);
-            itemDates.add(itemDate);
-        }
-        DateAdapter dateAdapter = new DateAdapter( getContext(),itemDates);
-        ListView l = getView().findViewById(R.id.listdate);
-        l.setAdapter(dateAdapter);
-
-         */
 
 
     }
@@ -169,6 +145,7 @@ public class storyFragment extends Fragment {
                 int position=images.indexOf(itemImage);
                 Intent intent = new Intent(getContext(), FullView.class);
                 intent.putExtra("position",String.valueOf( position));
+                intent.putExtra("name", String.valueOf("0"));
                 startActivity(intent);
 
             }

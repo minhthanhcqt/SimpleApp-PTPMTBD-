@@ -1,5 +1,6 @@
 package com.example.mygallery.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,7 +18,9 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.mygallery.AlbumActivity;
 import com.example.mygallery.AlbumAdapter;
+import com.example.mygallery.FullView;
 import com.example.mygallery.GalleryAdapter;
 import com.example.mygallery.ImageAdapter;
 import com.example.mygallery.ImageGallery;
@@ -93,7 +96,14 @@ public class albumFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("Hhehe", ""+adapter.getItem(position));
+
+              RowItem rowItem= (RowItem) adapter.getItem(position);
+
+              String name=rowItem.getTitle();
+                Intent intent = new Intent(getContext(), AlbumActivity.class);
+                intent.putExtra("name",String.valueOf(name));
+                startActivity(intent);
+              Log.e("x", ""+rowItem.getTitle());
             }
         });
 

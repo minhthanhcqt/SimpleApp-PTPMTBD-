@@ -19,27 +19,49 @@ public class FullView extends AppCompatActivity {
     private MyFragmentAdapter  myFragmentAdapter;
     private ViewPager viewPager;
     private ArrayList<Fragment> fragments;
-    private List<ItemImage> path;
+    private List<ItemImage> images;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageGallery imageGallery=new ImageGallery();
-        path=imageGallery.listImage(getBaseContext());
+        images=imageGallery.listImage(getBaseContext());
         fragments=new ArrayList<>();
         viewPager = findViewById(R.id.all);
-        for (int i = 0; i < path.size(); i++) {
-            if(!isImage(path.get(i).getPath())){
-                videoFragment videoFragment = new videoFragment(path.get(i).getPath());
+        Intent intent = getIntent();
+        String position=  intent.getStringExtra("position");
+        String name=intent.getStringExtra("name");
+        List<ItemImage> image=new ArrayList<>();
+        if(!name.equals("0"))
+        {
+
+            for(int i=0; i<images.size(); i++)
+            {
+                String path= images.get(i).getPath();
+                String [] word=path.split("/");
+                String newWord= word[word.length-2];
+                if( name.equals(newWord))
+                {
+                    image.add(images.get(i));
+                }
+            }
+
+        }
+        else
+        {
+            image=images;
+        }
+        for (int i = 0; i < image.size(); i++) {
+            if(!isImage(image.get(i).getPath())){
+                videoFragment videoFragment = new videoFragment(image.get(i).getPath());
                 fragments.add(videoFragment);
 
             }else {
-                ImagesFragment imageFragment = new ImagesFragment(path.get(i).getPath());
+                ImagesFragment imageFragment = new ImagesFragment(image.get(i).getPath());
                 fragments.add(imageFragment);
             }
         }
-        Intent intent = getIntent();
-        String position=  intent.getStringExtra("position");
+
        myFragmentAdapter= new MyFragmentAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(myFragmentAdapter);
         viewPager.setCurrentItem(Integer.parseInt(position), true);

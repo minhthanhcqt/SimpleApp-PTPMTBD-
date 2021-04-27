@@ -61,10 +61,12 @@ public class AlbumAdapter extends BaseAdapter {
         return rowItems.size();
     }
 
+
     @Override
     public Object getItem(int position) {
         return rowItems.get(position);
     }
+
 
     @Override
     public long getItemId(int position) {

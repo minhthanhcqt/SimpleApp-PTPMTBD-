@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".FirstActivity" />
         <activity android:name=".FullView" />
+        <activity android:name=".AlbumActivity" />
     </application>
 
 </manifest>
