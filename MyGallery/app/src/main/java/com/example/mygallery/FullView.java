@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.net.URLConnection;
@@ -27,6 +28,7 @@ import java.util.List;
 public class FullView extends AppCompatActivity  {
 
 
+    private Toolbar topBar;
     private BottomNavigationView bottomNavigationView;
     private MyFragmentAdapter  myFragmentAdapter;
     private ViewPager viewPager;
@@ -38,6 +40,9 @@ public class FullView extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        topBar = findViewById(R.id.topToolBar);
+        setSupportActionBar(topBar);
 
         ImageGallery imageGallery=new ImageGallery();
         images=imageGallery.listImage(getBaseContext());

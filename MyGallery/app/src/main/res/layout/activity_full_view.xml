@@ -6,15 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/top_nav"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:menu="@menu/fullview_top_menu"
-        android:backgroundTint="@color/colorPrimary"
         />
-
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/img_full"
