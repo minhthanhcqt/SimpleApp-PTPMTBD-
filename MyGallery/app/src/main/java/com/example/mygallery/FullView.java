@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,6 +29,8 @@ import java.util.List;
 public class FullView extends AppCompatActivity  {
 
 
+    private int on = 1;
+    private Button button;
     private Toolbar topBar;
     private BottomNavigationView bottomNavigationView;
     private MyFragmentAdapter  myFragmentAdapter;
@@ -43,6 +46,7 @@ public class FullView extends AppCompatActivity  {
 
         topBar = findViewById(R.id.topToolBar);
         setSupportActionBar(topBar);
+
 
         ImageGallery imageGallery=new ImageGallery();
         images=imageGallery.listImage(getBaseContext());
@@ -95,4 +99,15 @@ public class FullView extends AppCompatActivity  {
         return mimeType!=null &&mimeType.startsWith("image");
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.top_edit)
+        {
+            Toast.makeText(getApplicationContext(),"Clicked edit", Toast.LENGTH_SHORT).show();
+        }
+        return true;
+    }
 }
