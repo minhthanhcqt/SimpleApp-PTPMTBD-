@@ -36,13 +36,13 @@ public class FullView extends AppCompatActivity  {
     private MyFragmentAdapter  myFragmentAdapter;
     private ViewPager viewPager;
     private ArrayList<Fragment> fragments;
-    private List<ItemImage> images;
+    private ArrayList<ItemImage> images;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.fullview);
 
         topBar = findViewById(R.id.topToolBar);
         setSupportActionBar(topBar);
