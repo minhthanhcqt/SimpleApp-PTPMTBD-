@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/top_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:menu="@menu/fullview_top_menu"
+        android:backgroundTint="@color/colorPrimary"
+        />
+
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/img_full"
@@ -10,4 +22,15 @@
         android:layout_height="fill_parent"
         tools:ignore="MissingClass" />
 
-</LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:menu="@menu/fullview_bottom_menu"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
+        />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

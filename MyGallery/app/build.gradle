@@ -48,4 +48,7 @@ dependencies {
     implementation 'com.wajahatkarim3.LongImageCamera:LongImageCamera:1.0.2'
     implementation 'com.github.ihimanshurawat:ImageWorker:1.0'
     implementation 'com.github.myinnos:ImageSaveandShare:1.0.3'
+
+    implementation 'com.android.support:design:29.0.0'
+
 }
