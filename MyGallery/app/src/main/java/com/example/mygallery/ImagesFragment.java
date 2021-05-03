@@ -24,7 +24,6 @@ public class ImagesFragment extends Fragment {
     public ImagesFragment(String url )
     {
         this.url=url;
-
     }
     @Nullable
     @Override
