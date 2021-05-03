@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorAccent"
+    android:weightSum="3"
+    >
+    <ImageButton
+        android:layout_gravity="center"
+        android:id="@+id/sharebot"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@null"
+        android:src="@drawable/ic_share"
+        android:onClick="botbtnshare"/>
+    <ImageButton
+        android:layout_gravity="center"
+        android:id="@+id/favbot"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@null"
+        android:src="@drawable/ic_fav_black"
+        android:onClick="botbtnfav"/>
+    <ImageButton
+        android:layout_gravity="center"
+        android:id="@+id/editbot"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@null"
+        android:src="@drawable/ic_edit"
+        android:onClick="botbtnedit"/>
+
+
+
+</LinearLayout>

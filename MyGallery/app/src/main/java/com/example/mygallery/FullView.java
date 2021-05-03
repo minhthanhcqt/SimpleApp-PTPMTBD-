@@ -6,22 +6,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -33,8 +25,10 @@ public class FullView extends AppCompatActivity  {
     private ViewPager viewPager;
     private ArrayList<Fragment> fragments;
     private ArrayList<ItemImage> images;
+
     private Button button;
     private boolean a;
+
 
 
     @Override
@@ -44,29 +38,14 @@ public class FullView extends AppCompatActivity  {
 
         Toolbar topbar = findViewById(R.id.topNav);
         setSupportActionBar(topbar);
-
-        button = findViewById(R.id.onButton);
         a = topbar.isShown();
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (a == true)
-                {
-                    a = false;
-                    topbar.setVisibility(View.GONE);
-                }
-                else
-                {
-                    a = true;
-                    topbar.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+
 
         ImageGallery imageGallery=new ImageGallery();
         images=imageGallery.listImage(getBaseContext());
         fragments=new ArrayList<>();
         viewPager = findViewById(R.id.all);
+
         Intent intent = getIntent();
         String position=  intent.getStringExtra("position");
         String name=intent.getStringExtra("name");
@@ -106,7 +85,6 @@ public class FullView extends AppCompatActivity  {
         viewPager.setCurrentItem(Integer.parseInt(position), true);
 
 
-
     }
 
     @Override
@@ -114,13 +92,14 @@ public class FullView extends AppCompatActivity  {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.fullview_top_menu,menu);
         return true;
+
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.top_edit:
-                Toast.makeText(this, "Edit edit", Toast.LENGTH_SHORT ).show();
+            case R.id.top_delete:
+                Toast.makeText(this, "Delete", Toast.LENGTH_SHORT ).show();
                 break;
             case R.id.top_item2:
                 Toast.makeText(this, "Item2", Toast.LENGTH_SHORT ).show();
@@ -137,5 +116,16 @@ public class FullView extends AppCompatActivity  {
         String mimeType= URLConnection.guessContentTypeFromName(path);
         return mimeType!=null &&mimeType.startsWith("image");
     }
+
+    public void botbtnedit(View view) {
+        Toast.makeText(FullView.this, "Edit", Toast.LENGTH_SHORT).show();
+    }
+    public void botbtnfav(View view) {
+        Toast.makeText(FullView.this, "Favorite", Toast.LENGTH_SHORT).show();
+    }
+    public void botbtnshare(View view) {
+        Toast.makeText(FullView.this, "Share", Toast.LENGTH_SHORT).show();
+    }
+
 
 }

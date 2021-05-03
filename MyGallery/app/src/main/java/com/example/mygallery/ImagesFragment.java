@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ import java.io.File;
 public class ImagesFragment extends Fragment {
     private PhotoView imageView;
     private String url;
+    private boolean a;
     public ImagesFragment(String url )
     {
         this.url=url;
@@ -30,6 +32,7 @@ public class ImagesFragment extends Fragment {
         View view=inflater.inflate((R.layout.activity_full_view), container, false);
         imageView=view.findViewById(R.id.img_full);
         Glide.with(view).load(new File(url)).into(imageView);
+
         return view;
 
     }
