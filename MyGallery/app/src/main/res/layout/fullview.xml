@@ -5,6 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+    <include
+        android:id="@+id/topNav"
+        layout="@layout/actionbar"/>
+
+    <Button
+        android:id="@+id/onButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Alo"
+        />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/all"

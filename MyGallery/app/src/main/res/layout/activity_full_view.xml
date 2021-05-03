@@ -6,32 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/topBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:menu="@menu/fullview_top_menu"
-        />
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/img_full"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         tools:ignore="MissingClass" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:menu="@menu/fullview_bottom_menu"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"
-        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
