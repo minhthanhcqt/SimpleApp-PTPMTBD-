@@ -31,7 +31,6 @@ public class ImagesFragment extends Fragment {
         View view=inflater.inflate((R.layout.activity_full_view), container, false);
         imageView=view.findViewById(R.id.img_full);
         Glide.with(view).load(new File(url)).into(imageView);
-
         return view;
 
     }
