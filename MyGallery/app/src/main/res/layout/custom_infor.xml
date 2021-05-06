@@ -6,57 +6,129 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:layout_margin="10dp"
+    android:background="@android:color/black"
     >
 
-
+    <LinearLayout
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
     <TextView
         android:id="@+id/txt_Image_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="ImageName"
-        android:gravity="center"
-        android:textSize="20sp"/>
-
-    <LinearLayout
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white" />
+    <TextView
+        android:id="@+id/txt_store"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@+id/txt_Image_name">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_close"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#000"
-                android:text="Close"
-                android:textColor="#fff" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/datetaken"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Date Taken: " />
+        android:text="/image/dowload"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"/>
 
         <TextView
             android:id="@+id/img_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Size: " />
+            android:text="Size: "
+            android:textColor="@android:color/white"
+            android:textSize="16sp"/>
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/name"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp">
+
+
 
         <TextView
-            android:id="@+id/img_face"
+            android:id="@+id/datetaken"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Face: " />
+            android:text="Date Taken: "
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/iamge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/date"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="Auto Tag">
+
+        </TextView>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:src="@drawable/img10"
+            android:layout_marginTop="3dp">
+
+        </ImageView>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/iamge"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp">
+        <TextView
+            android:id="@+id/txt_name_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sam Sung A6 Plus"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+        <TextView
+            android:id="@+id/txt_chi_so"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="F1.7   1/287  3.93mm IOS 60"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/flash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No Flash "
+            android:textColor="@android:color/white"
+            android:textSize="16sp"/>
+
 
     </LinearLayout>
 
