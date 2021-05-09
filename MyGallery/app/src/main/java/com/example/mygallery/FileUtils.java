@@ -28,7 +28,10 @@ public class FileUtils {
     }
 
     public  static File genEditFile() {
-        return FileUtils.getEmptyFile("tietu" + System.currentTimeMillis() + ".jpg");
+        return FileUtils.getEmptyFile("MyGallery" + System.currentTimeMillis() + ".jpg");
+    }
+    public  static File genVidFile() {
+        return FileUtils.getEmptyFile("MyGallery" + System.currentTimeMillis() + ".jpg");
     }
 
     private static File getEmptyFile(String name) {

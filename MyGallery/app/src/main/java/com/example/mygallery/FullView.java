@@ -1,6 +1,7 @@
 package com.example.mygallery;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -12,8 +13,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -24,22 +28,28 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import iamutkarshtiwari.github.io.ananas.editimage.EditImageActivity;
+import iamutkarshtiwari.github.io.ananas.editimage.ImageEditorIntentBuilder;
+
 public class FullView extends AppCompatActivity  {
 
     private MyFragmentAdapter  myFragmentAdapter;
     private ViewPager viewPager;
-    String position;
-    String name;
+    private String imageallPath;
+    private String position;
+    private String name;
     private ArrayList<Fragment> fragments;
     private ArrayList<ItemImage> images;
     List<ItemImage> image;
-    private Button button;
-    private boolean a;
+
+    //photo edit code
+    private final int PHOTO_EDITOR_REQUEST_CODE = 231;
 
 
 
@@ -50,31 +60,10 @@ public class FullView extends AppCompatActivity  {
 
         Toolbar topbar = findViewById(R.id.topNav);
         setSupportActionBar(topbar);
-        a = topbar.isShown();
         load();
 
     }
 
-
-
-
-    public static void  delete(Context context, String file) {
-        final String where = MediaStore.MediaColumns.DATA + "=?";
-        final String[] selectionArgs = new String[] {
-                file
-        };
-
-        File File = new File(file);
-        final ContentResolver contentResolver = context.getContentResolver();
-        final Uri filesUri = MediaStore.Files.getContentUri("external");
-
-        contentResolver.delete(filesUri, where, selectionArgs);
-
-        if (File.exists()) {
-
-            contentResolver.delete(filesUri, where, selectionArgs);
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,6 +71,79 @@ public class FullView extends AppCompatActivity  {
         inflater.inflate(R.menu.fullview_top_menu,menu);
         return true;
 
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.top_delete:
+                int a= viewPager.getCurrentItem();
+
+                delete(getBaseContext(),image.get(a).getPath());
+                load();
+                myFragmentAdapter.notifyDataSetChanged();
+                Intent intent =new Intent(getBaseContext(), FirstActivity.class);
+                startActivity(intent);
+
+                //setWallpaperManager(image.get(a).getPath());
+                break;
+            case R.id.top_detail:
+                int x=viewPager.getCurrentItem();
+                String path=image.get(x).getPath();
+                Intent intent1=new Intent(getBaseContext(), DetailsActivity.class);
+                intent1.putExtra("Path", path);
+                startActivity(intent1);
+
+                break;
+            case R.id.top_wallpaper:
+                int b= viewPager.getCurrentItem();
+                setWallpaperManager(image.get(b).getPath());
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+    boolean isImage(String path)
+    {
+        String mimeType= URLConnection.guessContentTypeFromName(path);
+        return mimeType!=null &&mimeType.startsWith("image");
+    }
+
+    public void botbtnedit(View view) {
+        Toast.makeText(FullView.this, "Edit", Toast.LENGTH_SHORT).show();
+        int a= viewPager.getCurrentItem();
+        imageallPath = image.get(a).getPath();
+        editImage(imageallPath);
+    }
+    public void botbtnfav(View view) {
+        Toast.makeText(FullView.this, "Favorite", Toast.LENGTH_SHORT).show();
+    }
+    public void botbtnshare(View view) {
+        Toast.makeText(FullView.this, "Share", Toast.LENGTH_SHORT).show();
+        int a= viewPager.getCurrentItem();
+        imageallPath = image.get(a).getPath();
+        shareImage(imageallPath);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);//edited images
+        if (requestCode == PHOTO_EDITOR_REQUEST_CODE) {
+            String newFilePath = data.getStringExtra(ImageEditorIntentBuilder.OUTPUT_PATH);
+            boolean isImageEdit = data.getBooleanExtra(EditImageActivity.IS_IMAGE_EDITED, false);
+            if (isImageEdit){
+
+            }else {
+                newFilePath = data.getStringExtra(ImageEditorIntentBuilder.SOURCE_PATH);
+            }
+            Intent output = new Intent(getApplicationContext(), OutputImageActivity.class);
+            output.putExtra("imageNewPath", newFilePath);
+            startActivity(output);
+        }
     }
 
     void load()
@@ -129,7 +191,49 @@ public class FullView extends AppCompatActivity  {
         viewPager.setAdapter(myFragmentAdapter);
         viewPager.setCurrentItem(Integer.parseInt(position), true);
     }
-    void setWallpaperManager(String path)
+
+    public static void  delete(Context context, String file) {
+        final String where = MediaStore.MediaColumns.DATA + "=?";
+        final String[] selectionArgs = new String[] {
+                file
+        };
+
+        File File = new File(file);
+        final ContentResolver contentResolver = context.getContentResolver();
+        final Uri filesUri = MediaStore.Files.getContentUri("external");
+
+        contentResolver.delete(filesUri, where, selectionArgs);
+
+        if (File.exists()) {
+            contentResolver.delete(filesUri, where, selectionArgs);
+        }
+    }
+
+    private void editImage(String imagePath) {
+        try {
+            File outputFile = FileUtils.genEditFile();
+
+            Intent intent = new ImageEditorIntentBuilder(this, imagePath, outputFile.getAbsolutePath())
+                    .withAddText()
+                    .withBeautyFeature()
+                    .withBrightnessFeature()
+                    .withCropFeature()
+                    .withFilterFeature()
+                    .withPaintFeature()
+                    .withRotateFeature()
+                    .withStickerFeature()
+                    .withSaturationFeature()
+                    .forcePortrait(true)
+                    .setSupportActionBarVisibility(false)
+                    .build();
+            EditImageActivity.start(this,intent, PHOTO_EDITOR_REQUEST_CODE);
+        } catch (Exception e){
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    private void setWallpaperManager(String path)
     {
         if(isImage(path)) {
             WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
@@ -138,9 +242,9 @@ public class FullView extends AppCompatActivity  {
             bitmap = Bitmap.createScaledBitmap(bitmap, 1080, 2220, true);
             try {
                 // set the wallpaper by calling the setResource function and
-                // passing the drawable fi
-                // le
+                // passing the drawable file
                 wallpaperManager.setBitmap(bitmap);
+                Toast.makeText(getApplicationContext(), "Image set as WallPaper", Toast.LENGTH_LONG).show();
 
             } catch (IOException e) {
                 // here the errors can be logged instead of printStackTrace
@@ -149,60 +253,30 @@ public class FullView extends AppCompatActivity  {
         }
         else
         {
-            Toast.makeText(getApplicationContext(),
-                    "Can not Set Up WallPaper",
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Can not Set Up WallPaper", Toast.LENGTH_LONG).show();
         }
-
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.top_delete:
-                int a= viewPager.getCurrentItem();
-
-                delete(getBaseContext(),image.get(a).getPath());
-                load();
-                myFragmentAdapter.notifyDataSetChanged();
-                Intent inten=new Intent(getBaseContext(), FirstActivity.class);
-                startActivity(inten);
-
-                //setWallpaperManager(image.get(a).getPath());
-                break;
-            case R.id.top_detail:
-                int x=viewPager.getCurrentItem();
-                String path=image.get(x).getPath();
-                Intent intent1=new Intent(getBaseContext(), DetailsActivity.class);
-                intent1.putExtra("Path", path);
-                startActivity(intent1);
-
-
-                break;
-            case R.id.top_wallpaper:
-                int b= viewPager.getCurrentItem();
-                setWallpaperManager(image.get(b).getPath());
-                break;
+    private void shareImage(String path) {
+        StrictMode.VmPolicy.Builder builder  = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 1080, 2220, true);
+        File file = FileUtils.genEditFile();
+        Intent shareint;
+        shareint = new Intent(Intent.ACTION_SEND);
+        try {
+            FileOutputStream outputStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
+            outputStream.flush();
+            outputStream.close();
+            shareint.setType("image/jpg");
+            shareint.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+            shareint.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Can not share this file", Toast.LENGTH_LONG).show();
         }
-        return super.onOptionsItemSelected(item);
+        startActivity(Intent.createChooser(shareint, "Share Via: "));
     }
-
-
-
-    boolean isImage(String path)
-    {
-        String mimeType= URLConnection.guessContentTypeFromName(path);
-        return mimeType!=null &&mimeType.startsWith("image");
-    }
-
-    public void botbtnedit(View view) {
-        Toast.makeText(FullView.this, "Edit", Toast.LENGTH_SHORT).show();
-    }
-    public void botbtnfav(View view) {
-        Toast.makeText(FullView.this, "Favorite", Toast.LENGTH_SHORT).show();
-    }
-    public void botbtnshare(View view) {
-        Toast.makeText(FullView.this, "Share", Toast.LENGTH_SHORT).show();
-    }
-
 }

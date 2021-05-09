@@ -11,12 +11,25 @@
         android:id="@+id/output_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btn_save"/>
-    <Button
-        android:id="@+id/btn_save"
+        android:layout_above="@+id/lin"/>
+
+    <LinearLayout
+        android:id="@+id/lin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Image"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"/>
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:textAllCaps="false"
+            android:id="@+id/btn_savenew"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:layout_gravity="bottom"
+            android:text="Save Image" />
+
+    </LinearLayout>
+
 </RelativeLayout>
