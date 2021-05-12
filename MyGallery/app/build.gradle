@@ -18,13 +18,17 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -42,12 +46,12 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     // For control over item selection of both touch and mouse driven selection
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
     //photoeditor
     implementation 'com.github.iamutkarshtiwari:Ananas:1.2.4'
-    implementation 'com.wajahatkarim3.LongImageCamera:LongImageCamera:1.0.2'
     implementation 'com.github.ihimanshurawat:ImageWorker:1.0'
     implementation 'com.github.myinnos:ImageSaveandShare:1.0.3'
+    implementation 'com.github.abhishekti7:UnicornFilePicker:lastest_version'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.android.support:design:29.0.0'

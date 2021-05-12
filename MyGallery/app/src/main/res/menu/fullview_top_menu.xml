@@ -15,5 +15,9 @@
         android:id="@+id/top_wallpaper"
         android:title="Set WallPaper"
         android:enabled="true" />
+    <item
+        android:id="@+id/top_copy"
+        android:title="Copy to"
+        android:enabled="true" />
 
 </menu>

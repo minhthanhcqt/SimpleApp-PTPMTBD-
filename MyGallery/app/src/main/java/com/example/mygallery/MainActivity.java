@@ -3,14 +3,18 @@ package com.example.mygallery;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
@@ -22,7 +26,6 @@ import android.widget.Toast;
 import com.example.mygallery.Fragment.viewPager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.wajahatkarim3.longimagecamera.LongImageCameraActivity;
 
 import java.io.File;
 import java.util.List;
@@ -36,6 +39,8 @@ public class MainActivity  extends AppCompatActivity {
     ImageButton btnCamera;
     ImageButton btnVideo;
 
+    //permission code
+    public final int REQUEST_MULTI_PERMISSION = 7;
     //image picker code
     private final int REQUEST_CODE_PICKER =  100;
     //photo edit code
@@ -43,6 +48,8 @@ public class MainActivity  extends AppCompatActivity {
     //Camera code
     private final int IMAGE_CAPTURE = 102;
     private final int VIDEO_CAPTURE = 101;
+    private final int CAMERA_PERMISSION = 103;
+    private final int WRITE_EXTERNAL = 104;
     private Uri outUri;
 
     @Override
@@ -88,26 +95,40 @@ public class MainActivity  extends AppCompatActivity {
     }
 
     private void openCamera() {
-        Intent cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File outputimg = FileUtils.genEditFile();
-        outUri = Uri.fromFile(outputimg);
-        cam.putExtra(MediaStore.EXTRA_OUTPUT, outUri);
-        startActivityForResult(cam,IMAGE_CAPTURE);
-        //LongImageCameraActivity.launch(MainActivity.this);
-        //LongImageCameraActivity.LONG_IMAGE_RESULT_CODE
+
+        if (checkanndaskpermission() == true){
+            Intent cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            File outputimg = FileUtils.genEditFile();
+            outUri = Uri.fromFile(outputimg);
+            cam.putExtra(MediaStore.EXTRA_OUTPUT, outUri);
+            startActivityForResult(cam,IMAGE_CAPTURE);
+            //LongImageCameraActivity.launch(MainActivity.this);
+            //LongImageCameraActivity.LONG_IMAGE_RESULT_CODE
+        }
+        else {
+            recreate();
+        }
     }
     private void openVideo() {
-        Intent vid = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        File outputvid = FileUtils.genVidFile();
-        outUri = Uri.fromFile(outputvid);
-        vid.putExtra(MediaStore.EXTRA_OUTPUT, outUri);
-        startActivityForResult(vid,VIDEO_CAPTURE);
+
+        if (checkanndaskpermission()==true){
+            Intent vid = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+            File outputvid = FileUtils.genVidFile();
+            outUri = Uri.fromFile(outputvid);
+            vid.putExtra(MediaStore.EXTRA_OUTPUT, outUri);
+            startActivityForResult(vid, VIDEO_CAPTURE);
+        }
+        else {
+            recreate();
+        }
     }
 
     private void openGallery() {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(gallery, REQUEST_CODE_PICKER);
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -120,6 +141,10 @@ public class MainActivity  extends AppCompatActivity {
                         outUri, Toast.LENGTH_LONG).show();
                 openCamera();
             }
+            else
+            {
+                FullView.delete(getApplicationContext(),outUri.getPath());
+            }
         }
         //open video
         if (requestCode == VIDEO_CAPTURE) {
@@ -130,9 +155,11 @@ public class MainActivity  extends AppCompatActivity {
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Video recording cancelled.",
                         Toast.LENGTH_LONG).show();
+                FullView.delete(getApplicationContext(),outUri.getPath());
             } else {
                 Toast.makeText(this, "Failed to record video",
                         Toast.LENGTH_LONG).show();
+                FullView.delete(getApplicationContext(),outUri.getPath());
                 openVideo();
             }
         }
@@ -187,13 +214,34 @@ public class MainActivity  extends AppCompatActivity {
                     .setSupportActionBarVisibility(false)
                     .build();
 
-            EditImageActivity.start(MainActivity.this,intent, PHOTO_EDITOR_REQUEST_CODE);
+            EditImageActivity.start(MainActivity.this, intent, PHOTO_EDITOR_REQUEST_CODE);
 
-        } catch (Exception e){
-            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
-
     }
 
+    private boolean checkanndaskpermission() {
+        if ((checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)&&
+                (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED))
+        {
+            return true;
+        }
+        else {
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION);
+                Toast.makeText(this, "Camera and recording permission not granted.",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL);
+                Toast.makeText(this, "Write to external storage permission not granted.",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+        return false;
+    }
 }
 
