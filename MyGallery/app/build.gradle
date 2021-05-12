@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.github.iamutkarshtiwari:Ananas:1.2.4'
     implementation 'com.github.ihimanshurawat:ImageWorker:1.0'
     implementation 'com.github.myinnos:ImageSaveandShare:1.0.3'
-    implementation 'com.github.abhishekti7:UnicornFilePicker:lastest_version'
+    implementation 'lib.kashif:folderpicker:2.2'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.android.support:design:29.0.0'

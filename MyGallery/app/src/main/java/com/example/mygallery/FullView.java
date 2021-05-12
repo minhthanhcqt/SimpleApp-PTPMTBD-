@@ -52,6 +52,7 @@ import java.util.logging.Logger;
 
 import iamutkarshtiwari.github.io.ananas.editimage.EditImageActivity;
 import iamutkarshtiwari.github.io.ananas.editimage.ImageEditorIntentBuilder;
+import lib.folderpicker.FolderPicker;
 
 public class FullView extends AppCompatActivity  {
 
@@ -122,6 +123,9 @@ public class FullView extends AppCompatActivity  {
                 int c= viewPager.getCurrentItem();
                 imageallPath = image.get(c).getPath();
                 if(permissionGranted()) {
+                    Intent intent2 = new Intent(this, FolderPicker.class);
+                    intent2.putExtra("title", "Select folder to copy to");
+                    startActivityForResult(intent2,DIRECTORY_CHOOSE_CODE);
                 }
             else {
                     requestPermission();
@@ -200,18 +204,10 @@ public class FullView extends AppCompatActivity  {
             startActivity(output);
         }
         if (requestCode == DIRECTORY_CHOOSE_CODE){
-            try {
-                OutputStream out = getApplicationContext().getContentResolver().openOutputStream(data.getData());
-
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            /*Uri uri = data.getData();
-            DocumentFile docFile = DocumentFile.fromTreeUri(this,uri);
-            String outputpath = docFile.getUri().getPath() + "/"+ System.currentTimeMillis() + ".jpg";
-
-            copyFile(imageallPath,outputpath);*/
+            String output = data.getExtras().getString("data")+"/"+ System.currentTimeMillis() + ".jpg";
+            copyFile(imageallPath,output);
+            Toast.makeText(getApplicationContext(), "Copied to: "+output, Toast.LENGTH_LONG).show();
+            recreate();
         }
     }
 
