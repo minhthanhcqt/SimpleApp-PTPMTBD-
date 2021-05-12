@@ -3,13 +3,16 @@ package com.example.mygallery;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
@@ -21,6 +24,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.mygallery.Fragment.viewPager;
@@ -38,7 +42,12 @@ public class MainActivity  extends AppCompatActivity {
     ImageButton btnEdit;
     ImageButton btnCamera;
     ImageButton btnVideo;
+    Switch      aSwitch;
 
+    //Night and day
+    public static final String MyPREFERENCES = "nightModePrefs";
+    public static final String KEY_ISNIGHTMODE = "isNightMode";
+    SharedPreferences sharedPreferences;
     //permission code
     public final int REQUEST_MULTI_PERMISSION = 7;
     //image picker code
@@ -57,10 +66,16 @@ public class MainActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
 
+        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
         btnGallery=(ImageButton) findViewById(R.id.gallery);
         btnEdit=(ImageButton) findViewById(R.id.edit);
         btnCamera=(ImageButton) findViewById(R.id.camera);
         btnVideo = (ImageButton) findViewById(R.id.video);
+        aSwitch = findViewById(R.id.nightmode);
+
+        checkNightModeActive();
+
 
         if (!hasCamera()) {
             btnVideo.setEnabled(false);
@@ -83,6 +98,33 @@ public class MainActivity  extends AppCompatActivity {
         btnEdit.setOnClickListener(view -> {
             openGallery();
         });
+
+        aSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                saveNightModeState(true);
+                recreate();
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                saveNightModeState(false);
+                recreate();
+            }
+        });
+    }
+
+    private void saveNightModeState(boolean b) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(KEY_ISNIGHTMODE,b);
+        editor.apply();
+    }
+    private void checkNightModeActive() {
+        if(sharedPreferences.getBoolean(KEY_ISNIGHTMODE, false)) {
+            aSwitch.setChecked(true);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            aSwitch.setChecked(false);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     private boolean hasCamera() {
