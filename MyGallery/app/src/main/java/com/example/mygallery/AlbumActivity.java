@@ -59,9 +59,11 @@ public class AlbumActivity extends AppCompatActivity {
             public void onPhotoClick(ItemImage itemImage) {
                 int position=image.indexOf(itemImage);
                 Log.e("Path " , ""+ images.get(position).getPath());
+                String path = images.get(position).getPath();
                 Intent intent = new Intent(getBaseContext(), FullView.class);
                 intent.putExtra("position",String.valueOf( position));
                 intent.putExtra("name", String.valueOf(nameAlbum));
+                intent.putExtra("imgpath", path);
                 startActivity(intent);
 
             }

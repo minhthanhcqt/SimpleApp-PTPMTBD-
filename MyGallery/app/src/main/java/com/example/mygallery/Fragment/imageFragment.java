@@ -120,7 +120,6 @@ public class imageFragment extends Fragment {
                 intent.putExtra("name", String.valueOf("0"));
                 intent.putExtra("imgpath", path);
                 startActivity(intent);
-
             }
         });
 

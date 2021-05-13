@@ -84,10 +84,13 @@ public class FullView extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fullview);
-        Toolbar topbar = findViewById(R.id.topNav);
-        setSupportActionBar(topbar);
-        load();
 
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        Bundle bundle = null;
+        Toolbar topbar = findViewById(R.id.topNav);
+          setSupportActionBar(topbar);
+                load();
     }
 
 
@@ -229,10 +232,9 @@ public class FullView extends AppCompatActivity  {
             output.putExtra("imageNewPath", newFilePath);
             startActivity(output);
         }
-        if (requestCode == DIRECTORY_CHOOSE_CODE){
-            String output = data.getExtras().getString("data")+"/"+ System.currentTimeMillis() + ".jpg";
+        if (requestCode == DIRECTORY_CHOOSE_CODE && data.hasExtra("data")){
+            String output = data.getStringExtra("data")+"/"+ System.currentTimeMillis() + ".jpg";
             copyFile(imageallPath,output);
-            ;
         }
     }
 

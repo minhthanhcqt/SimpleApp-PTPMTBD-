@@ -142,10 +142,12 @@ public class storyFragment extends Fragment {
 
             @Override
             public void onPhotoClick(ItemImage itemImage) {
-                int position=images.indexOf(itemImage);
+                int position=images.indexOf(itemImage);;
+                String path = images.get(position).getPath();
                 Intent intent = new Intent(getContext(), FullView.class);
                 intent.putExtra("position",String.valueOf( position));
                 intent.putExtra("name", String.valueOf("0"));
+                intent.putExtra("imgpath", path);
                 startActivity(intent);
 
             }

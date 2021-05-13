@@ -47,6 +47,7 @@ public class MainActivity  extends AppCompatActivity {
     //Night and day
     public static final String MyPREFERENCES = "nightModePrefs";
     public static final String KEY_ISNIGHTMODE = "isNightMode";
+    public static final String KEY_DEFAULTAPP = "notasked";
     SharedPreferences sharedPreferences;
     //permission code
     public final int REQUEST_MULTI_PERMISSION = 7;
@@ -126,6 +127,13 @@ public class MainActivity  extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
+
+    private void saveDefaultState(boolean b) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(KEY_ISNIGHTMODE,b);
+        editor.apply();
+    }
+
 
     private boolean hasCamera() {
         if (getPackageManager().hasSystemFeature(
