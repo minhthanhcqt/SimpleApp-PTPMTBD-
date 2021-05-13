@@ -185,7 +185,7 @@ public class MainActivity  extends AppCompatActivity {
             }
             else
             {
-                FullView.delete(getApplicationContext(),outUri.getPath());
+                FullView.delete(getBaseContext(),outUri.getPath());
             }
         }
         //open video
