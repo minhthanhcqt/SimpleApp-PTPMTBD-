@@ -31,7 +31,7 @@ public class FileUtils {
         return FileUtils.getEmptyFile("MyGallery" + System.currentTimeMillis() + ".jpg");
     }
     public  static File genVidFile() {
-        return FileUtils.getEmptyFile("MyGallery" + System.currentTimeMillis() + ".jpg");
+        return FileUtils.getEmptyFile("MyGallery" + System.currentTimeMillis() + ".mp4");
     }
 
     private static File getEmptyFile(String name) {
