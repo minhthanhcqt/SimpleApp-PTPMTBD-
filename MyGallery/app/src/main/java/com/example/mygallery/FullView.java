@@ -15,6 +15,7 @@ import android.app.WallpaperManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -36,6 +37,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
@@ -44,6 +48,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.net.URLConnection;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -65,6 +70,8 @@ public class FullView extends AppCompatActivity  {
     private ArrayList<ItemImage> images;
     private String newpath = null;
     List<ItemImage> image;
+
+    ArrayList<String> FavList;
 
     //photo edit code
     private final int PHOTO_EDITOR_REQUEST_CODE = 231;
@@ -98,7 +105,17 @@ public class FullView extends AppCompatActivity  {
             case R.id.top_delete:
                 int a= viewPager.getCurrentItem();
 
-                delete(getBaseContext(),image.get(a).getPath());
+                if(name.equals("Fav"))
+                {
+                    deleteFav(image.get(a).getPath());
+                    Toast.makeText(FullView.this, " Remove the file from favorite", Toast.LENGTH_SHORT).show();
+                }
+                else {
+
+                    delete(getBaseContext(), image.get(a).getPath());
+                    Toast.makeText(FullView.this, " Remove the file from External_Storage", Toast.LENGTH_SHORT).show();
+
+                }
                 load();
                 myFragmentAdapter.notifyDataSetChanged();
                 Intent intent =new Intent(getBaseContext(), FirstActivity.class);
@@ -177,7 +194,17 @@ public class FullView extends AppCompatActivity  {
         editImage(imageallPath);
     }
     public void botbtnfav(View view) {
-        Toast.makeText(FullView.this, "Favorite", Toast.LENGTH_SHORT).show();
+        int a= viewPager.getCurrentItem();
+        imageallPath = image.get(a).getPath();
+        loadData();
+        if(FavList.contains(imageallPath))
+        {
+            Toast.makeText(FullView.this, " The File already exists in Favorite", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            addFav(imageallPath);
+            Toast.makeText(FullView.this, " Added Favorite", Toast.LENGTH_SHORT).show();
+        }
     }
     public void botbtnshare(View view) {
         Toast.makeText(FullView.this, "Share", Toast.LENGTH_SHORT).show();
@@ -221,35 +248,46 @@ public class FullView extends AppCompatActivity  {
         Intent intent = getIntent();
         position=  intent.getStringExtra("position");
         name=intent.getStringExtra("name");
+        loadData();
         image=new ArrayList<>();
-        if(!name.equals("0"))
-        {
 
+        if(name.equals("Fav"))
+        {
             for(int i=0; i<images.size(); i++)
             {
-                String path= images.get(i).getPath();
-                String [] word=path.split("/");
-                String newWord= word[word.length-2];
-                if( name.equals(newWord))
+                if(FavList.contains(images.get(i).getPath()))
                 {
                     image.add(images.get(i));
                 }
             }
 
         }
-        else
-        {
-            image=images;
-        }
-        for (int i = 0; i < image.size(); i++) {
-            if(!isImage(image.get(i).getPath())){
-                videoFragment videoFragment = new videoFragment(image.get(i).getPath());
-                fragments.add(videoFragment);
+        else {
 
-            }else {
-                ImagesFragment imageFragment = new ImagesFragment(image.get(i).getPath());
-                fragments.add(imageFragment);
+            if (!name.equals("0")) {
+
+                for (int i = 0; i < images.size(); i++) {
+                    String path = images.get(i).getPath();
+                    String[] word = path.split("/");
+                    String newWord = word[word.length - 2];
+                    if (name.equals(newWord)) {
+                        image.add(images.get(i));
+                    }
+                }
+
+            } else {
+                image = images;
             }
+        }
+                for (int i = 0; i < image.size(); i++) {
+                    if (!isImage(image.get(i).getPath())) {
+                        videoFragment videoFragment = new videoFragment(image.get(i).getPath());
+                        fragments.add(videoFragment);
+
+                } else {
+                    ImagesFragment imageFragment = new ImagesFragment(image.get(i).getPath());
+                    fragments.add(imageFragment);
+                }
         }
 
         myFragmentAdapter = new MyFragmentAdapter(getSupportFragmentManager(), fragments);
@@ -320,6 +358,43 @@ public class FullView extends AppCompatActivity  {
         {
             Toast.makeText(getApplicationContext(), "Can not Set Up WallPaper", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void addFav(String path)
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        FavList.add(path);
+        String json = gson.toJson(FavList);
+        editor.putString("Fav", json);
+        editor.apply();
+
+    }
+
+    private void  loadData()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("Fav", null);
+        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        FavList = gson.fromJson(json, type);
+        if (FavList == null) {
+            FavList = new ArrayList<>();
+        }
+
+    }
+    private void deleteFav(String path)
+    {
+        int index=FavList.indexOf(path);
+        FavList.remove(index);
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(FavList);
+        editor.putString("Fav", json);
+        editor.apply();
+
     }
 
     private void shareImage(String path) {
