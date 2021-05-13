@@ -24,6 +24,7 @@ public class OutputImageActivity extends AppCompatActivity {
 
     ImageView outputImage;
     Button btnSaveNew;
+    String imageNewPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class OutputImageActivity extends AppCompatActivity {
         btnSaveNew = findViewById(R.id.btn_savenew);
 
         Bundle bundle = getIntent().getExtras();
-        String imageNewPath = bundle.getString("imageNewPath");
+        imageNewPath = bundle.getString("imageNewPath");
 
         outputImage.setImageURI(Uri.parse(imageNewPath));
 
@@ -50,6 +51,12 @@ public class OutputImageActivity extends AppCompatActivity {
                 delete(getBaseContext(),imageNewPath);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        delete(getBaseContext(),imageNewPath);
     }
 
     private String saveImage(Bitmap image, File storageDir, String imageFileName){

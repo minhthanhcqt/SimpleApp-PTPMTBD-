@@ -58,8 +58,6 @@ public class MainActivity  extends AppCompatActivity {
     //Camera code
     private final int IMAGE_CAPTURE = 102;
     private final int VIDEO_CAPTURE = 101;
-    private final int CAMERA_PERMISSION = 103;
-    private final int WRITE_EXTERNAL = 104;
     private Uri outUri;
 
     @Override
@@ -152,11 +150,9 @@ public class MainActivity  extends AppCompatActivity {
             outUri = Uri.fromFile(outputimg);
             cam.putExtra(MediaStore.EXTRA_OUTPUT, outUri);
             startActivityForResult(cam,IMAGE_CAPTURE);
-            //LongImageCameraActivity.launch(MainActivity.this);
-            //LongImageCameraActivity.LONG_IMAGE_RESULT_CODE
         }
         else {
-            recreate();
+            requestCamPermission();
         }
     }
     private void openVideo() {
@@ -169,7 +165,7 @@ public class MainActivity  extends AppCompatActivity {
             startActivityForResult(vid, VIDEO_CAPTURE);
         }
         else {
-            recreate();
+            requestCamPermission();
         }
     }
 
@@ -185,20 +181,20 @@ public class MainActivity  extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         //open cam
-        if (requestCode == IMAGE_CAPTURE && data != null) {
-            if (resultCode == RESULT_OK) {
+        if (requestCode == IMAGE_CAPTURE) {
+            if (resultCode == RESULT_OK && data != null) {
                 Toast.makeText(this, "Image has been saved to:\n" +
                         outUri, Toast.LENGTH_LONG).show();
                 openCamera();
             }
-            else
+            else if (resultCode == RESULT_CANCELED)
             {
                 FullView.delete(getBaseContext(),outUri.getPath());
             }
         }
         //open video
         if (requestCode == VIDEO_CAPTURE) {
-            if (resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK && data != null) {
                 Toast.makeText(this, "Video has been saved to:\n" +
                         outUri, Toast.LENGTH_LONG).show();
                 openVideo();
@@ -226,21 +222,26 @@ public class MainActivity  extends AppCompatActivity {
             int columnIndex = cursor.getColumnIndex(filePathCollumn[0]);
             String imagePath = cursor.getString(columnIndex);
             editImage(imagePath);
-
         }
         //edited images
-        if (requestCode == PHOTO_EDITOR_REQUEST_CODE) {
+        if (requestCode == PHOTO_EDITOR_REQUEST_CODE && data != null) {
             String newFilePath = data.getStringExtra(ImageEditorIntentBuilder.OUTPUT_PATH);
             boolean isImageEdit = data.getBooleanExtra(EditImageActivity.IS_IMAGE_EDITED, false);
             if (isImageEdit){
 
+                Intent output = new Intent(getApplicationContext(), OutputImageActivity.class);
+                output.putExtra("imageNewPath", newFilePath);
+                output.putExtra("imageOldPath", ImageEditorIntentBuilder.SOURCE_PATH);
+                startActivity(output);
+
             }else {
                 newFilePath = data.getStringExtra(ImageEditorIntentBuilder.SOURCE_PATH);
+                FullView.delete(this,newFilePath);
             }
-            Intent output = new Intent(getApplicationContext(), OutputImageActivity.class);
-            output.putExtra("imageNewPath", newFilePath);
-            output.putExtra("imageOldPath", ImageEditorIntentBuilder.SOURCE_PATH);
-            startActivity(output);
+        }
+        if (data == null)
+        {
+            recreate();
         }
 
     }
@@ -249,7 +250,6 @@ public class MainActivity  extends AppCompatActivity {
         if (permissionGranted()) {
             try {
                 File outputFile = FileUtils.genEditFile();
-
                 Intent intent = new ImageEditorIntentBuilder(MainActivity.this, imagePath, outputFile.getAbsolutePath())
                         .withAddText()
                         .withBeautyFeature()
@@ -280,27 +280,13 @@ public class MainActivity  extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
     }
 
+    private void requestCamPermission(){
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+    }
+
     private boolean checkanndaskpermission() {
-        if ((checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)&&
-                (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED))
-        {
-            return true;
-        }
-        else {
-            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION);
-                Toast.makeText(this, "Camera and recording permission not granted.",
-                        Toast.LENGTH_LONG).show();
-                return false;
-            }
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL);
-                Toast.makeText(this, "Write to external storage permission not granted.",
-                        Toast.LENGTH_LONG).show();
-                return false;
-            }
-        }
-        return false;
+        return ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
     }
 }
 
