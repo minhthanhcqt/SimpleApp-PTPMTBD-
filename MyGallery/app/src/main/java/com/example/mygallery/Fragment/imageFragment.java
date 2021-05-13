@@ -115,7 +115,6 @@ public class imageFragment extends Fragment {
             public void onPhotoClick(ItemImage itemImage) {
                 int position=images.indexOf(itemImage);
                 String path = images.get(position).getPath();
-                Log.e("Path " , ""+ images.get(position).getPath());
                 Intent intent = new Intent(getContext(), FullView.class);
                 intent.putExtra("position",String.valueOf( position));
                 intent.putExtra("name", String.valueOf("0"));

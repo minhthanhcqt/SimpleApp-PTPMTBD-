@@ -57,7 +57,6 @@ public class FullView extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fullview);
-
         Toolbar topbar = findViewById(R.id.topNav);
         setSupportActionBar(topbar);
         load();
