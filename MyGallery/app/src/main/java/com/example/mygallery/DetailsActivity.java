@@ -198,5 +198,8 @@ public class DetailsActivity extends AppCompatActivity {
         return mimeType!=null &&mimeType.startsWith("image");
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

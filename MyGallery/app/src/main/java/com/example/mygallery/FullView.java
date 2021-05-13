@@ -314,25 +314,30 @@ public class FullView extends AppCompatActivity  {
     }
 
     private void editImage(String imagePath) {
-        try {
-            File outputFile = FileUtils.genEditFile();
+        if (permissionGranted()) {
+            try {
+                File outputFile = FileUtils.genEditFile();
 
-            Intent intent = new ImageEditorIntentBuilder(this, imagePath, outputFile.getAbsolutePath())
-                    .withAddText()
-                    .withBeautyFeature()
-                    .withBrightnessFeature()
-                    .withCropFeature()
-                    .withFilterFeature()
-                    .withPaintFeature()
-                    .withRotateFeature()
-                    .withStickerFeature()
-                    .withSaturationFeature()
-                    .forcePortrait(true)
-                    .setSupportActionBarVisibility(false)
-                    .build();
-            EditImageActivity.start(this,intent, PHOTO_EDITOR_REQUEST_CODE);
-        } catch (Exception e){
-            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                Intent intent = new ImageEditorIntentBuilder(this, imagePath, outputFile.getAbsolutePath())
+                        .withAddText()
+                        .withBeautyFeature()
+                        .withBrightnessFeature()
+                        .withCropFeature()
+                        .withFilterFeature()
+                        .withPaintFeature()
+                        .withRotateFeature()
+                        .withStickerFeature()
+                        .withSaturationFeature()
+                        .forcePortrait(true)
+                        .setSupportActionBarVisibility(false)
+                        .build();
+                EditImageActivity.start(this, intent, PHOTO_EDITOR_REQUEST_CODE);
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+            else {
+            requestPermission();
         }
     }
 

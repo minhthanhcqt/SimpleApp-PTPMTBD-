@@ -152,7 +152,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Intent intent =new Intent(MapsActivity.this, FirstActivity.class);
+                    Intent intent =new Intent(MapsActivity.this, DetailsActivity.class);
                     intent.putExtra("Path", path);
                     startActivity(intent);
                 }

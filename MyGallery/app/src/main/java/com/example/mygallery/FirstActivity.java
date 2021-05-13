@@ -52,7 +52,6 @@ public class FirstActivity extends AppCompatActivity {
                     case 3:  btnNv.getMenu().findItem(R.id.face).setChecked(true);
                         break;
                 }
-
             }
 
             @Override

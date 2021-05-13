@@ -246,29 +246,38 @@ public class MainActivity  extends AppCompatActivity {
     }
 
     private void editImage(String imagePath) {
+        if (permissionGranted()) {
+            try {
+                File outputFile = FileUtils.genEditFile();
 
-        try {
-            File outputFile = FileUtils.genEditFile();
-
-            Intent intent = new ImageEditorIntentBuilder(MainActivity.this, imagePath, outputFile.getAbsolutePath())
-                    .withAddText()
-                    .withBeautyFeature()
-                    .withBrightnessFeature()
-                    .withCropFeature()
-                    .withFilterFeature()
-                    .withPaintFeature()
-                    .withRotateFeature()
-                    .withStickerFeature()
-                    .withSaturationFeature()
-                    .forcePortrait(true)
-                    .setSupportActionBarVisibility(false)
-                    .build();
-
-            EditImageActivity.start(MainActivity.this, intent, PHOTO_EDITOR_REQUEST_CODE);
-
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                Intent intent = new ImageEditorIntentBuilder(MainActivity.this, imagePath, outputFile.getAbsolutePath())
+                        .withAddText()
+                        .withBeautyFeature()
+                        .withBrightnessFeature()
+                        .withCropFeature()
+                        .withFilterFeature()
+                        .withPaintFeature()
+                        .withRotateFeature()
+                        .withStickerFeature()
+                        .withSaturationFeature()
+                        .forcePortrait(true)
+                        .setSupportActionBarVisibility(false)
+                        .build();
+                EditImageActivity.start(MainActivity.this, intent, PHOTO_EDITOR_REQUEST_CODE);
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            }
         }
+        else {
+            requestPermission();
+        }
+    }
+    private boolean permissionGranted(){
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+    private void requestPermission(){
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
     }
 
     private boolean checkanndaskpermission() {
