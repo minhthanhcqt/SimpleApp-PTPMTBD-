@@ -232,8 +232,7 @@ public class FullView extends AppCompatActivity  {
         if (requestCode == DIRECTORY_CHOOSE_CODE){
             String output = data.getExtras().getString("data")+"/"+ System.currentTimeMillis() + ".jpg";
             copyFile(imageallPath,output);
-            Toast.makeText(getApplicationContext(), "Copied to: "+output, Toast.LENGTH_LONG).show();
-            recreate();
+            ;
         }
     }
 
