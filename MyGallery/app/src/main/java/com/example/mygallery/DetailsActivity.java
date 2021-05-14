@@ -99,20 +99,15 @@ public class DetailsActivity extends AppCompatActivity {
                     String city = null;
                     String state = null;
                     String country = null;
-                    String postalCode = null;
-                    String knonName = null;
+
                     try {
                         addresses = geocoder.getFromLocation(latLong[0], latLong[1], 1);
                         address = addresses.get(0).getAddressLine(0);
                         city = addresses.get(0).getLocality();
-                        state = addresses.get(0).getAdminArea();
-                        country = addresses.get(0).getCountryName();
-                        postalCode = addresses.get(0).getPostalCode();
-                        knonName = addresses.get(0).getFeatureName();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    location_=address+city+state+country+postalCode+knonName;
+                    location_=address+city;
                 }
 
 

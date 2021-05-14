@@ -64,7 +64,6 @@ public class ImageGallery {
                 + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
         Uri queryUri = MediaStore.Files.getContentUri("external");
-
         CursorLoader cursorLoader = new CursorLoader(context,
                 queryUri,
                 projection,
