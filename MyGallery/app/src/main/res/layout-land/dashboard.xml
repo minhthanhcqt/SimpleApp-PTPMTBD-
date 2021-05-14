@@ -5,12 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="130dp"
-        android:src="@drawable/welcome">
-    </ImageView>
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:src="@drawable/welcome"></ImageView>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="120dp"
@@ -57,29 +55,60 @@
 
     </LinearLayout>
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-            <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+
+
+        <ImageButton
+            android:id="@+id/camera"
+            android:layout_width="140dp"
+            android:layout_height="90dp"
+            android:background="@drawable/iconcamera" />
+            <TextView
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Camera"
+                android:textSize="15sp"/>
+        </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center">
                 <ImageButton
-                    android:id="@+id/camera"
-                    android:layout_width="180dp"
-                    android:layout_height="110dp"
-                    android:background="@drawable/iconcamera" />
+                    android:id="@+id/video"
+                    android:layout_width="140dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/iconvideo"
+                    />
                 <TextView
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="Camera"
-                    android:textSize="20sp"/>
+                    android:text="Capture Video"
+                    android:textSize="15sp"/>
 
             </LinearLayout>
-
     </LinearLayout>
+    <Switch
+        android:paddingTop="20dp"
+        android:id="@+id/nightmode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Night Mode"
+        android:textSize="30sp" />
+
 
 </LinearLayout>
